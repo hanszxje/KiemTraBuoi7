@@ -105,6 +105,23 @@ namespace KiemTraBuoi7.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            // Lấy thông tin sinh viên
+            var sinhVien = await _sinhVienRepository.GetByIdAsync(masv);
+            if (sinhVien != null)
+            {
+                ViewBag.MaSV = sinhVien.Masv;
+                ViewBag.HoTen = sinhVien.HoTen;
+                ViewBag.NgaySinh = sinhVien.NgaySinh?.ToString("dd/MM/yyyy");
+                ViewBag.Nganh = sinhVien.MaNganhNavigation?.TenNganh ?? "Không có ngành";
+            }
+            else
+            {
+                ViewBag.MaSV = masv;
+                ViewBag.HoTen = User.FindFirst("FullName")?.Value;
+                ViewBag.NgaySinh = "Không có thông tin";
+                ViewBag.Nganh = "Không có thông tin";
+            }
+
             var dangKy = await _dangKyRepository.GetBySinhVienAsync(masv);
             if (dangKy == null)
             {

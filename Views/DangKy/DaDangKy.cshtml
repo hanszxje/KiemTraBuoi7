@@ -6,6 +6,17 @@
 
 <h1>Đăng Kí Học Phần</h1>
 
+<div class="row mb-3">
+    <div class="col-md-6">
+        <p><strong>Mã SV: </strong>@ViewBag.MaSV</p>
+        <p><strong>Họ Tên: </strong>@ViewBag.HoTen</p>
+    </div>
+    <div class="col-md-6">
+        <p><strong>Ngày Sinh: </strong>@ViewBag.NgaySinh</p>
+        <p><strong>Ngành: </strong>@ViewBag.Nganh</p>
+    </div>
+</div>
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success" role="alert">
@@ -14,7 +25,7 @@
 }
 
 <p>
-    <strong>Mã Học Phần: </strong>@(Model.Any() ? Model.First().Madk.ToString() : "Chưa đăng ký")
+    <strong>Mã Đăng Ký: </strong>@(Model.Any() ? Model.First().Madk.ToString() : "Chưa đăng ký")
 </p>
 
 <table class="table">

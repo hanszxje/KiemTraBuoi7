@@ -1,0 +1,33 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Thống Kê Số Lượng Sinh Viên Đăng Ký Học Phần";
+}
+
+<h1>THỐNG KÊ SỐ LƯỢNG SINH VIÊN ĐĂNG KÝ HỌC PHẦN</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Học Phần</th>
+            <th>Tên Học Phần</th>
+            <th>Số Tín Chỉ</th>
+            <th>Số SV Đăng Ký</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Mahp</td>
+                <td>@item.TenHp</td>
+                <td>@item.SoTinChi</td>
+                <td>@item.SoSVDangKy</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>

@@ -11,12 +11,19 @@ namespace KiemTraBuoi7.Controllers
     {
         private readonly ISinhVienRepository _sinhVienRepository;
         private readonly INganhHocRepository _nganhHocRepository;
+        private readonly IHocPhanRepository _hocPhanRepository;
+        private readonly IChiTietDangKyRepository _chiTietDangKyRepository;
 
-        public SinhVienController(ISinhVienRepository sinhVienRepository,
-                                  INganhHocRepository nganhHocRepository)
+        public SinhVienController(
+            ISinhVienRepository sinhVienRepository,
+            INganhHocRepository nganhHocRepository,
+            IHocPhanRepository hocPhanRepository,
+            IChiTietDangKyRepository chiTietDangKyRepository)
         {
             _sinhVienRepository = sinhVienRepository;
             _nganhHocRepository = nganhHocRepository;
+            _hocPhanRepository = hocPhanRepository;
+            _chiTietDangKyRepository = chiTietDangKyRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -151,6 +158,26 @@ namespace KiemTraBuoi7.Controllers
                 return NotFound();
             }
             return View(sinhVien);
+        }
+
+        // Thống kê số lượng sinh viên đăng ký từng học phần
+        public async Task<IActionResult> ThongKe()
+        {
+            var hocPhans = await _hocPhanRepository.GetAllAsync();
+            var chiTietDangKys = await _context.ChiTietDangKies
+                .GroupBy(ctdk => ctdk.Mahp)
+                .Select(g => new { Mahp = g.Key, SoSVDangKy = g.Count() })
+                .ToListAsync();
+
+            var thongKe = hocPhans.Select(hp => new
+            {
+                Mahp = hp.Mahp,
+                TenHp = hp.TenHp,
+                SoTinChi = hp.SoTinChi,
+                SoSVDangKy = chiTietDangKys.FirstOrDefault(ctdk => ctdk.Mahp == hp.Mahp)?.SoSVDangKy ?? 0
+            }).ToList();
+
+            return View(thongKe);
         }
     }
 }
