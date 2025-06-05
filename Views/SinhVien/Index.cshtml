@@ -1,0 +1,65 @@
+﻿@model IEnumerable<KiemTraBuoi7.Models.SinhVien>
+
+@{
+    ViewData["Title"] = "Danh sách sinh viên";
+}
+
+<h1>Danh sách sinh viên</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm sinh viên</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Masv)</th>
+            <th>@Html.DisplayNameFor(model => model.HoTen)</th>
+            <th>@Html.DisplayNameFor(model => model.GioiTinh)</th>
+            <th>@Html.DisplayNameFor(model => model.NgaySinh)</th>
+            <th>@Html.DisplayNameFor(model => model.Hinh)</th>
+            <th>@Html.DisplayNameFor(model => model.MaNganhNavigation.TenNganh)</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Masv)</td>
+                <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
+                <td>@Html.DisplayFor(modelItem => item.GioiTinh)</td>
+                <td>@(item.NgaySinh?.ToString("MM/dd/yyyy"))</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Hinh))
+                    {
+                        <img src="@item.Hinh" alt="Ảnh sinh viên" style="width: 100px; height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>Không có ảnh</span>
+                    }
+                </td>
+                <td>@(item.MaNganhNavigation?.TenNganh ?? "Không có ngành")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Masv" class="btn btn-warning">Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.Masv" class="btn btn-info">Chi tiết</a>
+                    <a asp-action="Delete" asp-route-id="@item.Masv" class="btn btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
