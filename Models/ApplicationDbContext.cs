@@ -17,6 +17,14 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        // Cấu hình mối quan hệ giữa SinhVien và NganhHoc
+        modelBuilder.Entity<SinhVien>()
+            .HasOne(sv => sv.MaNganhNavigation)
+            .WithMany(nh => nh.SinhViens)
+            .HasForeignKey(sv => sv.MaNganh)
+            .HasPrincipalKey(nh => nh.MaNganh)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // Cấu hình khóa chính composite cho ChiTietDangKy
         modelBuilder.Entity<ChiTietDangKy>()
             .HasKey(ctdk => new { ctdk.Madk, ctdk.Mahp });
@@ -43,6 +51,7 @@ public class ApplicationDbContext : DbContext
 
         // Seed data cho SinhVien
         modelBuilder.Entity<SinhVien>().HasData(
+            new SinhVien { Masv = "admin", HoTen = "Quản trị viên", GioiTinh = "Nam", NgaySinh = new DateTime(1990, 1, 1), Hinh = "/Content/images/admin.jpg", MaNganh = "CNTT" },
             new SinhVien { Masv = "0123456789", HoTen = "Nguyễn Văn A", GioiTinh = "Nam", NgaySinh = new DateTime(2000, 12, 2), Hinh = "/Content/images/sv1.jpg", MaNganh = "CNTT" },
             new SinhVien { Masv = "9876543210", HoTen = "Nguyễn Thị B", GioiTinh = "Nữ", NgaySinh = new DateTime(2000, 3, 7), Hinh = "/Content/images/sv2.jpg", MaNganh = "QTKD" }
         );

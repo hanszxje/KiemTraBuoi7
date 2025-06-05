@@ -1,0 +1,63 @@
+﻿@model IEnumerable<KiemTraBuoi7.Models.ChiTietDangKy>
+
+@{
+    ViewData["Title"] = "Đăng Kí Học Phần";
+}
+
+<h1>Đăng Kí Học Phần</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<p>
+    <strong>Mã Học Phần: </strong>@(Model.Any() ? Model.First().Madk.ToString() : "Chưa đăng ký")
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Học Phần</th>
+            <th>Tên Học Phần</th>
+            <th>Số Tín Chỉ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Mahp)</td>
+                <td>@Html.DisplayFor(modelItem => item.HocPhan.TenHp)</td>
+                <td>@Html.DisplayFor(modelItem => item.HocPhan.SoTinChi)</td>
+                <td>
+                    <form asp-action="XoaDangKy" method="post">
+                        <input type="hidden" name="madk" value="@item.Madk" />
+                        <input type="hidden" name="mahp" value="@item.Mahp" />
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p class="text-danger">
+    <strong>Số học phần: </strong>@ViewBag.SoHocPhan<br />
+    <strong>Tổng số tín chỉ: </strong>@ViewBag.TongSoTinChi
+</p>
+
+@if (Model.Any())
+{
+    <form asp-action="XoaTatCaDangKy" method="post">
+        <button type="submit" class="btn btn-danger">Xóa Đăng Kí</button>
+        <button type="button" class="btn btn-primary" onclick="alert('Lưu đăng ký thành công!')">Lưu đăng ký</button>
+    </form>
+}
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Chọn đăng ký học phần</a>
+</p>

@@ -32,6 +32,7 @@
             <th>@Html.DisplayNameFor(model => model.NgaySinh)</th>
             <th>@Html.DisplayNameFor(model => model.Hinh)</th>
             <th>@Html.DisplayNameFor(model => model.MaNganhNavigation.TenNganh)</th>
+            <th>@Html.DisplayNameFor(model => model.CanLogin)</th>
             <th>Hành động</th>
         </tr>
     </thead>
@@ -54,6 +55,7 @@
                     }
                 </td>
                 <td>@(item.MaNganhNavigation?.TenNganh ?? "Không có ngành")</td>
+                <td>@(item.CanLogin ? "Có" : "Không")</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Masv" class="btn btn-warning">Sửa</a>
                     <a asp-action="Details" asp-route-id="@item.Masv" class="btn btn-info">Chi tiết</a>

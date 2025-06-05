@@ -4,6 +4,7 @@ using KiemTraBuoi7.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KiemTraBuoi7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250605073028_FixRelationship")]
+    partial class FixRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,9 +179,6 @@ namespace KiemTraBuoi7.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<bool>("CanLogin")
-                        .HasColumnType("bit");
-
                     b.Property<string>("GioiTinh")
                         .IsRequired()
                         .HasMaxLength(5)
@@ -210,18 +210,7 @@ namespace KiemTraBuoi7.Migrations
                     b.HasData(
                         new
                         {
-                            Masv = "admin",
-                            CanLogin = false,
-                            GioiTinh = "Nam",
-                            Hinh = "/Content/images/admin.jpg",
-                            HoTen = "Quản trị viên",
-                            MaNganh = "CNTT",
-                            NgaySinh = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
                             Masv = "0123456789",
-                            CanLogin = false,
                             GioiTinh = "Nam",
                             Hinh = "/Content/images/sv1.jpg",
                             HoTen = "Nguyễn Văn A",
@@ -231,7 +220,6 @@ namespace KiemTraBuoi7.Migrations
                         new
                         {
                             Masv = "9876543210",
-                            CanLogin = false,
                             GioiTinh = "Nữ",
                             Hinh = "/Content/images/sv2.jpg",
                             HoTen = "Nguyễn Thị B",

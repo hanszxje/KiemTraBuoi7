@@ -12,12 +12,16 @@ public class EFSinhVienRepository : ISinhVienRepository
 
     public async Task<IEnumerable<SinhVien>> GetAllAsync()
     {
-        return await _context.SinhViens.Include(x => x.MaNganhNavigation).ToListAsync();
+        return await _context.SinhViens
+            .Include(x => x.MaNganhNavigation)
+            .ToListAsync();
     }
 
     public async Task<SinhVien> GetByIdAsync(string id)
     {
-        return await _context.SinhViens.Include(x => x.MaNganhNavigation).SingleOrDefaultAsync(x => x.Masv == id);
+        return await _context.SinhViens
+            .Include(x => x.MaNganhNavigation)
+            .FirstOrDefaultAsync(x => x.Masv == id);
     }
 
     public async Task AddAsync(SinhVien sinhVien)
@@ -28,7 +32,7 @@ public class EFSinhVienRepository : ISinhVienRepository
 
     public async Task UpdateAsync(SinhVien sinhVien)
     {
-        _context.SinhViens.Update(sinhVien);
+        _context.Entry(sinhVien).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 

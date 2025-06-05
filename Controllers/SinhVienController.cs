@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KiemTraBuoi7.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KiemTraBuoi7.Controllers
 {
+    [Authorize(Roles = "Admin")] // Chỉ admin được truy cập
     public class SinhVienController : Controller
     {
         private readonly ISinhVienRepository _sinhVienRepository;
@@ -20,10 +22,6 @@ namespace KiemTraBuoi7.Controllers
         public async Task<IActionResult> Index()
         {
             var sinhViens = await _sinhVienRepository.GetAllAsync();
-            foreach (var sv in sinhViens)
-            {
-                Console.WriteLine($"SinhVien: {sv.Masv}, MaNganh: {sv.MaNganh}, TenNganh: {sv.MaNganhNavigation?.TenNganh}");
-            }
             return View(sinhViens);
         }
 
@@ -95,7 +93,7 @@ namespace KiemTraBuoi7.Controllers
                     else
                     {
                         var existingSinhVien = await _sinhVienRepository.GetByIdAsync(id);
-                        sinhVien.Hinh = -KiemTraBuoi7 existingSinhVien.Hinh;
+                        sinhVien.Hinh = existingSinhVien.Hinh;
                     }
 
                     await _sinhVienRepository.UpdateAsync(sinhVien);

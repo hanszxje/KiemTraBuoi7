@@ -33,4 +33,7 @@ public class SinhVien
 
     [Display(Name = "Ngành học")]
     public NganhHoc? MaNganhNavigation { get; set; }
+
+    [Display(Name = "Được phép đăng nhập")]
+    public bool CanLogin { get; set; } = false; // Mặc định không cho phép đăng nhập
 }

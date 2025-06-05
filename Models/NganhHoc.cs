@@ -14,5 +14,5 @@ public class NganhHoc
     [Display(Name = "Tên ngành")]
     public string TenNganh { get; set; }
 
-    public List<SinhVien> SinhViens { get; set; }
+    public List<SinhVien> SinhViens { get; set; } = new List<SinhVien>();
 }

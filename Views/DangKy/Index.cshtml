@@ -1,0 +1,54 @@
+﻿@model IEnumerable<KiemTraBuoi7.Models.HocPhan>
+
+@{
+    ViewData["Title"] = "Danh Sách Học Phần";
+}
+
+<h1>DANH SÁCH HỌC PHẦN</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Học Phần</th>
+            <th>Tên Học Phần</th>
+            <th>Số Tín Chỉ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Mahp)</td>
+                <td>@Html.DisplayFor(modelItem => item.TenHp)</td>
+                <td>@Html.DisplayFor(modelItem => item.SoTinChi)</td>
+                <td>
+                    @if (ViewBag.DaDangKy != null && ViewBag.DaDangKy.Contains(item.Mahp))
+                    {
+                        <span class="text-success">Đã Đăng Ký</span>
+                    }
+                    else
+                    {
+                        <form asp-action="Register" method="post">
+                            <input type="hidden" name="mahp" value="@item.Mahp" />
+                            <button type="submit" class="btn btn-success">Đăng Kí</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
